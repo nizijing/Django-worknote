@@ -31,8 +31,7 @@ class EventInfo(models.Model):
         verbose_name_plural = '2-事件信息'
 
     def get_event_status(self):
-        return True
-        #return all(id.task_status)
+        return all([ item.task_status for item in TaskInfo.objects.filter(task_id=self.id)])
     get_event_status.boolean = True
     get_event_status.short_description = '已完成?'
 
@@ -53,6 +52,7 @@ class TaskInfo(models.Model):
     task_status = models.BooleanField(verbose_name = '任务状态', default = False)
     task_mtime	= models.DateField(verbose_name = '修改时间', null=True, auto_now=True)
     task_note	= models.CharField('备注', max_length = 100, default='', blank=True)
+    task_priority   = models.PositiveSmallIntegerField('优先级', choices = task_priority_choices, default = 1)
 
     def __str__(self):
         return self.task_name
@@ -61,4 +61,6 @@ class TaskInfo(models.Model):
         verbose_name = '3-任务信息'
         verbose_name_plural = '3-任务信息'
 
-
+    def get_pro_name(self):
+        return self.task_id.pro
+    get_pro_name.short_description = '所属项目'

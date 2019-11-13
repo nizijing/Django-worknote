@@ -25,16 +25,15 @@ class ProInfoAdmin(admin.ModelAdmin):
 @admin.register(EventInfo)
 class EventInfoAdmin(admin.ModelAdmin):
     inlines         = (TaskInfoInline,)
-#    list_filter     = ('get_event_status', )
-    list_display    = ('pro', 'event_name', 'get_event_status')
+    list_display    = ('pro', 'event_name', 'event_ctime','get_event_status')
     search_fields   = ('event_name', )
 
 
 @admin.register(TaskInfo)
 class TaskInfoAdmin(admin.ModelAdmin):
-    ordering       = ('task_status', 'task_mtime' )
-    list_filter    = ('task_status', 'task_mtime')
-    list_display   = ('task_id', 'task_name', 'task_status', 'task_mtime', 'task_note')
+    ordering       = ('task_status', 'task_priority', 'task_mtime' )
+    list_filter    = ('task_priority', 'task_mtime')
+    list_display   = ('get_pro_name', 'task_id', 'task_name', 'task_status', 'task_priority', 'task_mtime', 'task_note')
     list_editable  = ('task_status', 'task_note')
     search_fields  = ('task_name',)
     date_hierarchy = ('task_mtime')
