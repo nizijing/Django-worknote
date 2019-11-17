@@ -19,7 +19,8 @@ class EventInfoInline(admin.TabularInline):
 @admin.register(ProInfo)
 class ProInfoAdmin(admin.ModelAdmin):
     inlines     = (EventInfoInline,)
-    list_display    = ('pro_name', 'pro_link')
+    list_display    = ('pro_name', 'pro_ctime', 'pro_link')
+    search_fields   = ('pro_name',)
 
 
 @admin.register(EventInfo)

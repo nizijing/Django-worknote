@@ -1,9 +1,12 @@
 from django.db import models
+from django.utils import timezone
+from datetime import datetime
 
 
 # Create your models here.
 class ProInfo(models.Model):
     pro_name    = models.CharField('项目名称', max_length = 24, unique = True)
+    pro_ctime   = models.DateField('创建时间', default = timezone.now)
     pro_link    = models.URLField('link')
 
     def __str__(self):
@@ -50,7 +53,7 @@ class TaskInfo(models.Model):
 			)
     task_name	= models.CharField(verbose_name = '任务名称', max_length=24)
     task_status = models.BooleanField(verbose_name = '任务状态', default = False)
-    task_mtime	= models.DateField(verbose_name = '修改时间', null=True, auto_now=True)
+    task_mtime	= models.DateField(verbose_name = '修改时间',  auto_now=True)
     task_note	= models.CharField('备注', max_length = 100, default='', blank=True)
     task_priority   = models.PositiveSmallIntegerField('优先级', choices = task_priority_choices, default = 1)
 
