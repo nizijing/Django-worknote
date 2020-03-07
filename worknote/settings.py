@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pro.apps.ProConfig',
+    'devices.apps.DevicesConfig',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +129,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [ os.path.join(BASE_DIR,'srcs') ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SIMPLEUI_ANALYSIS = False
 SIMPLEUI_STATIC_OFFLINE = True
+SIMPLEUI_LOGO = '/static/logo.png'

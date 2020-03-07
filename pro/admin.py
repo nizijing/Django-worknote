@@ -33,7 +33,7 @@ class EventInfoAdmin(admin.ModelAdmin):
 @admin.register(TaskInfo)
 class TaskInfoAdmin(admin.ModelAdmin):
     ordering       = ('task_status', 'task_priority', 'task_mtime' )
-    list_filter    = ('task_priority', 'task_mtime')
+    list_filter    = ('task_priority', 'task_status', 'task_mtime')
     list_display   = ('get_pro_name', 'task_id', 'task_name', 'task_status', 'task_priority', 'task_mtime', 'task_note')
     list_editable  = ('task_status', 'task_note')
     search_fields  = ('task_name',)

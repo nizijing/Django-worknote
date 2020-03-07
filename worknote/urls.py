@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.staticfiles.views import serve
 
 urlpatterns = [
-    path('worknote/', admin.site.urls),
+    path('', admin.site.urls),
+    path('favicon.ico', serve, {'path': '../srcs/admin/simpleui-x/img/favicon.ico'}),
 ]
