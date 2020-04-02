@@ -6,9 +6,47 @@ FINISHJOB=3
 
 # Create your models here.
 class ProInfo(models.Model):
+	province_choice = (
+			(11, '北京'),
+			(12, '天津'),
+			(13, '河北'),
+			(14, '山西'),
+			(15, '内蒙'),
+			(21, '辽宁'),
+			(22, '吉林'),
+			(23, '黑龙江'),
+			(31, '上海'),
+			(32, '江苏'),
+			(33, '浙江'),
+			(34, '安徽'),
+			(35, '福建'),
+			(36, '江西'),
+			(37, '山东'),
+			(41, '河南'),
+			(42, '湖北'),
+			(43, '湖南'),
+			(44, '广东'),
+			(45, '广西'),
+			(46, '海南'),
+			(50, '重庆'),
+			(51, '四川'),
+			(52, '贵州'),
+			(53, '云南'),
+			(54, '西藏'),
+			(61, '陕西'),
+			(62, '甘肃'),
+			(63, '青海'),
+			(64, '宁夏'),
+			(65, '新疆'),
+			(71, '台湾'),
+			(81, '香港'),
+			(82, '澳门'),
+			(91, '国外'),
+			)
+	province	 = models.PositiveSmallIntegerField('省市', choices = province_choice, default = 33)
 	pro_name	 = models.CharField('项目名称', max_length = 24, unique = True)
 	pro_ctime	 = models.DateField('创建时间', default = timezone.now)
-	pro_status  = models.BooleanField('任务状态', default = False) 
+	pro_status   = models.BooleanField('任务状态', default = False) 
 	pro_link	 = models.URLField('link')
 
 	def get_event_status(self):
@@ -70,3 +108,4 @@ class TaskInfo(models.Model):
 	def get_pro_name(self):
 		return self.task_id.pro
 	get_pro_name.short_description = '所属项目'
+
