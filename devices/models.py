@@ -20,13 +20,11 @@ class ProInfo(models.Model):
 
 class DeviceInfo(models.Model):
     pro = models.ForeignKey(ProInfo, verbose_name = '所属项目', on_delete = models.DO_NOTHING)
-    hostname    = models.CharField('主机名', max_length = 24)
+    hostname    = models.CharField('主机简称', max_length = 24)
     ip          = models.GenericIPAddressField('ip')
     os_name     = models.CharField('OS', max_length = 16)
-    unit_name   = models.CharField('组件名', max_length = 16)
     nature      = models.CharField('配置', max_length = 16, help_text = 'such as 2C4G200G')
-    isvhost     = models.BooleanField('是否虚拟机')
-    hostDevice  = models.GenericIPAddressField('宿主机')
+    isvhost     = models.BooleanField('虚机')
     note        = models.CharField('备注', max_length = 100, blank = True)
     
     def __str__(self):

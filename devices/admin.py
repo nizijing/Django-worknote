@@ -40,7 +40,7 @@ class ProInfoAdmin(admin.ModelAdmin):
 @admin.register(DeviceInfo)
 class DevicesAdmin(ImportExportModelAdmin):
     list_filter     = ('pro', )
-    list_display    = ('pro', 'hostname', 'ip', 'unit_name', 'isvhost', 'hostDevice', 'os_name', 'nature', 'note')
+    list_display    = ('pro', 'hostname', 'ip', 'isvhost', 'os_name', 'nature', 'note')
     search_fields   = ('pro__pro_name', )
     resource_class  = DeviceInfoResource
 
