@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import ldap
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
-from pro_setting import  *
+from .pro_setting import  *
 
 '''An example of pro_setting.py
 
@@ -85,7 +85,7 @@ AUTH_LDAP_USER_ATTR_MAP = {
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8ns*t2$k1$%p8_oa62!6nm*4ag&o=&w6mk^_ij1a===2!(ha43'
+SECRET_KEY = DJANGO_SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True 
