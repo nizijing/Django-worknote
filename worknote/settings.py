@@ -15,23 +15,6 @@ import ldap
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 from .pro_setting import  *
 
-'''An example of pro_setting.py
-
-LDAP_SERVER='ldap://127.0.0.1:389'
-LDAP_ADMIN='cn=root,dc=yourdc,dc=com'
-LDAP_ADMIN_PASSWORD='yourpasswd'
-LDAP_USER_SEARCH_TPYE='ou=Users,dc=yourdc,dc=cn'
-LDAP_GROUP_SEARCH_TYPE='ou=Department,dc=yourdc,dc=cn'
-
-
-MYSQL_HOST='127.0.0.1'
-MYSQL_PORT='3306'
-MYSQL_DB_NAME='dbname'
-MYSQL_DB_USER='user'
-MYSQL_DB_PASSWD='password'
-'''
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
