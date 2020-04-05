@@ -11,10 +11,75 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+from pro_setting import  *
+
+'''An example of pro_setting.py
+
+LDAP_SERVER='ldap://127.0.0.1:389'
+LDAP_ADMIN='cn=root,dc=yourdc,dc=com'
+LDAP_ADMIN_PASSWORD='yourpasswd'
+LDAP_USER_SEARCH_TPYE='ou=Users,dc=yourdc,dc=cn'
+LDAP_GROUP_SEARCH_TYPE='ou=Department,dc=yourdc,dc=cn'
+
+
+MYSQL_HOST='127.0.0.1'
+MYSQL_PORT='3306'
+MYSQL_DB_NAME='dbname'
+MYSQL_DB_USER='user'
+MYSQL_DB_PASSWD='password'
+'''
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+AUTH_LDAP_SERVER_URI = LDAP_SERVER
+AUTH_LDAP_BIND_DN = LDAP_ADMIN
+AUTH_LDAP_BIND_PASSWORD = LDAP_ADMIN_PASSWORD
+#OU = unicode('OU=中文名,DC=uu,DC=yyy,DC=com', 'utf8')
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    LDAP_USER_SEARCH_TPYE,
+    ldap.SCOPE_SUBTREE,
+    '(uid=%(user)s)',
+	)
+
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+	LDAP_GROUP_SEARCH_TYPE,
+	ldap.SCOPE_SUBTREE, "(objectClass=groupOfNames)"
+	)
+
+#AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
+
+# This is the default, but I like to be explicit.
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+
+# Use LDAP group membership to calculate group permissions.
+# AUTH_LDAP_FIND_GROUP_PERMS = True
+
+# Cache distinguished names and group memberships for an hour to minimize
+# LDAP traffic.
+# AUTH_LDAP_CACHE_TIMEOUT = 1
+
+
+# 先使用LDAP认证，如通过认证则不再使用后面的认证方式
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+	]
+
+#AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+#	'is_active':	'ou=Department,dc=pukkasoft,dc=cn',
+#	'is_staff':		'cn=00test12345678,ou=Department,dc=pukkasoft,dc=cn',
+#	'is_superuser': 'cn=00test12345678,ou=Department,dc=pukkasoft,dc=cn',
+#	}
+
+AUTH_LDAP_USER_ATTR_MAP = {  
+    "first_name": "givenName",
+    "last_name": "sn",
+    "email": "mail",
+	} 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -76,15 +141,14 @@ WSGI_APPLICATION = 'worknote.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'HOST': 'localhost',
-        'PORT': '3306',
-        'NAME': 'worknote',
-        'USER': 'worknote',
-        'PASSWORD': 'worknote',
+        'HOST': MYSQL_HOST,
+        'PORT': MYSQL_PORT,
+        'NAME': MYSQL_DB_NAME,
+        'USER': MYSQL_DB_USER,
+        'PASSWORD': MYSQL_DB_PASSWD,
         'OPTIONS': {
             'init_command': "SET sql_mode='traditional'",
         },
