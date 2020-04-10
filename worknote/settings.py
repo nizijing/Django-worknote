@@ -21,30 +21,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AUTH_LDAP_SERVER_URI = LDAP_SERVER
 AUTH_LDAP_BIND_DN = LDAP_ADMIN
 AUTH_LDAP_BIND_PASSWORD = LDAP_ADMIN_PASSWORD
-#OU = unicode('OU=中文名,DC=uu,DC=yyy,DC=com', 'utf8')
 AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    LDAP_USER_SEARCH_TPYE,
+    LDAP_USER_SEARCH_TYPE,
     ldap.SCOPE_SUBTREE,
     '(uid=%(user)s)',
 	)
 
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-	LDAP_GROUP_SEARCH_TYPE,
-	ldap.SCOPE_SUBTREE, "(objectClass=groupOfNames)"
-	)
-
-#AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
-
 # This is the default, but I like to be explicit.
 AUTH_LDAP_ALWAYS_UPDATE_USER = True
 
-# Use LDAP group membership to calculate group permissions.
-# AUTH_LDAP_FIND_GROUP_PERMS = True
-
-# Cache distinguished names and group memberships for an hour to minimize
-# LDAP traffic.
-# AUTH_LDAP_CACHE_TIMEOUT = 1
-
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(LDAP_GROUP_SEARCH_TYPE, ldap.SCOPE_SUBTREE, "(objectClass=groupOfNames)" )
+AUTH_LDAP_MIRROR_GROUPS = True
 
 # 先使用LDAP认证，如通过认证则不再使用后面的认证方式
 AUTHENTICATION_BACKENDS = [
@@ -52,16 +40,19 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 	]
 
-#AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-#	'is_active':	'ou=Department,dc=pukkasoft,dc=cn',
-#	'is_staff':		'cn=00test12345678,ou=Department,dc=pukkasoft,dc=cn',
-#	'is_superuser': 'cn=00test12345678,ou=Department,dc=pukkasoft,dc=cn',
-#	}
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+#	'is_active':	'ou=users,dc=pukkasoft,dc=cn',
+#	'is_staff' :	'cn=IT运维部-155776062,ou=Department,dc=pukkasoft,dc=cn',
+#	'is_superuser' :	'ou=users,dc=pukkasoft,dc=cn',
+	}
 
 AUTH_LDAP_USER_ATTR_MAP = {  
-    "first_name": "givenName",
-    "last_name": "sn",
+    "first_name": 'givenName',
+    "last_name": 'sn',
+	'position': 'employeeType',
+	'num': 'employeeNumber',
     "email": "mail",
+	"is_staff": 'businessCategory',
 	} 
 
 # Quick-start development settings - unsuitable for production
@@ -80,7 +71,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'simpleui',
-    'django.contrib.admin',
+	'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -88,6 +79,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pro.apps.ProConfig',
     'devices.apps.DevicesConfig',
+	'staff.apps.StaffConfig',
     'import_export',
 ]
 
@@ -181,3 +173,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SIMPLEUI_ANALYSIS = False
 SIMPLEUI_STATIC_OFFLINE = True
 SIMPLEUI_LOGO = '/static/logo.png'
+AUTH_USER_MODEL = 'staff.MyUser'
+

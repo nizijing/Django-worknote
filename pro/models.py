@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import datetime
+from staff.models import MyUser
 
 FINISHJOB=3
 MIDDLEPRI=1
@@ -102,10 +103,16 @@ class TaskInfo(models.Model):
 				verbose_name = '所属事件',
 				on_delete = models.CASCADE
 				)
-	task_name	 = models.CharField(verbose_name = '任务名称', max_length=24)
+	task_dealer	= models.ForeignKey(
+				MyUser, to_field = 'num',
+				verbose_name = '处理人',
+				default = -3,
+				on_delete = models.DO_NOTHING
+			)
+	task_name	= models.CharField(verbose_name = '任务名称', max_length=24)
 	task_status = models.BooleanField(verbose_name = '任务状态', default = False)
-	task_mtime	 = models.DateField(verbose_name = '修改时间',  auto_now=True)
-	task_note	 = models.CharField('备注', max_length = 100, default='', blank=True)
+	task_mtime	= models.DateField(verbose_name = '修改时间',  default = timezone.now)
+	task_note	= models.CharField('备注', max_length = 100, default='', blank=True)
 
 	def __str__(self):
 		return self.task_name

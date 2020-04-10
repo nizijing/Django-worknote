@@ -4,11 +4,13 @@ from django.contrib import admin
 from .models import ProInfo, TaskInfo, EventInfo
 from django.utils import timezone
 from .models import FINISHJOB, MIDDLEPRI
+from django.contrib import messages
 
 
 class TaskInfoInline(admin.TabularInline):
 	model = TaskInfo
 	ordering = ('task_status', 'task_mtime' )
+	fieldsets = [(None, {'fields':['task_name','task_dealer', 'task_status', 'task_mtime', 'task_note']})]
 	extra = 0
 
 
@@ -39,18 +41,18 @@ class EventInfoAdmin(admin.ModelAdmin):
 @admin.register(TaskInfo)
 class TaskInfoAdmin(admin.ModelAdmin):
 	ordering	   = ('task_status', 'task_id' )
-	list_filter	   =  ('task_status', 'task_mtime')
-	list_display   = ('get_pro_name', 'task_id', 'task_name', 'task_status', 'task_mtime', 'task_note')
+	list_filter	   = ('task_status', 'task_dealer', 'task_mtime')
+	list_display   = ('get_pro_name', 'task_id', 'task_dealer', 'task_name', 'task_status', 'task_mtime', 'task_note')
 	list_editable  = ('task_status', )
 	search_fields  = ('task_name',)
 	date_hierarchy = ('task_mtime')
 
 	def save_model(self, request, obj, form, change):
+		if '/add/' in request.META['PATH_INFO']:
+			obj.task_dealer_id = request.user.num
+		elif not request.user.is_superuser or not obj.task_dealer_id == request.user.num:
+			messages.error(request, "you cannot change other staff task message!")
+			messages.set_level(request, messages.ERROR)
+			return
 		obj.save()
-		if all([ item.task_status for item in TaskInfo.objects.filter(task_id = obj.task_id) ]):
-			obj.task_id.event_priority = FINISHJOB
-			obj.task_id.save()
-		elif  obj.task_id.event_priority == FINISHJOB:
-			obj.task_id.event_priority = MIDDLEPRI
-			obj.task_id.save()
 
