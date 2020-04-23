@@ -22,10 +22,9 @@ class EventInfoInline(admin.TabularInline):
 @admin.register(ProInfo)
 class ProInfoAdmin(admin.ModelAdmin):
 	inlines	 = (EventInfoInline,)
-	list_display	= ('pro_name', 'province', 'pro_ctime', 'pro_link', 'pro_status', 'get_event_status')
+	list_display	= ('pro_name', 'province', 'pro_ctime', 'pro_link', 'get_event_status')
 	search_fields   = ('pro_name', )
 	list_filter		= ('province', )
-	ordering		= ('pro_status', )
 
 
 @admin.register(EventInfo)
@@ -35,13 +34,13 @@ class EventInfoAdmin(admin.ModelAdmin):
 	search_fields   = ('event_name',)
 	list_filter     = ('pro', 'event_priority',)
 	ordering		= ('event_priority', 'pro', 'event_ctime')
-#	list_editable   = ('event_status', )
+	list_editable   = ('event_priority', )
 
 
 @admin.register(TaskInfo)
 class TaskInfoAdmin(admin.ModelAdmin):
 	ordering	   = ('task_status', 'task_id' )
-	list_filter	   = ('task_status', 'task_dealer', 'task_mtime')
+	list_filter	   = ('task_id__pro', 'task_id', 'task_status', 'task_dealer', 'task_mtime')
 	list_display   = ('get_pro_name', 'task_id', 'task_dealer', 'task_name', 'task_status', 'task_mtime', 'task_note')
 	list_editable  = ('task_status', )
 	search_fields  = ('task_name',)

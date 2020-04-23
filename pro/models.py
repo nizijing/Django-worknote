@@ -48,7 +48,6 @@ class ProInfo(models.Model):
 	province	 = models.PositiveSmallIntegerField('省市', choices = province_choice, default = 33)
 	pro_name	 = models.CharField('项目名称', max_length = 24, unique = True)
 	pro_ctime	 = models.DateField('创建时间', default = timezone.now)
-	pro_status   = models.BooleanField('任务状态', default = False) 
 	pro_link	 = models.URLField('link')
 
 	def get_event_status(self):
@@ -57,7 +56,7 @@ class ProInfo(models.Model):
 				return False
 		return True
 	get_event_status.boolean = True
-	get_event_status.short_description = '事件状态'
+	get_event_status.short_description = 'Done'
 
 	def __str__(self):
 		return self.pro_name
@@ -75,9 +74,9 @@ class EventInfo(models.Model):
 				(FINISHJOB, '已完成'),
 				(4, '不处理'),
 				)
-	pro			= models.ForeignKey(ProInfo, verbose_name = '所属项目', on_delete = models.PROTECT)
+	pro			    = models.ForeignKey(ProInfo, verbose_name = '所属项目', on_delete = models.PROTECT)
 	event_name		= models.CharField(verbose_name = '事件名称', max_length=24)
-	event_ctime	= models.DateField('创建时间', auto_now_add = True)
+	event_ctime	    = models.DateField('创建时间', auto_now_add = True)
 	event_priority	= models.PositiveSmallIntegerField('优先级', choices = event_priority_choices, default = 1)
 
 	def __str__(self):
@@ -106,7 +105,7 @@ class TaskInfo(models.Model):
 	task_dealer	= models.ForeignKey(
 				MyUser, to_field = 'num',
 				verbose_name = '处理人',
-				default = -3,
+				default = 824,
 				on_delete = models.DO_NOTHING
 			)
 	task_name	= models.CharField(verbose_name = '任务名称', max_length=24)
