@@ -6,7 +6,7 @@ from django.contrib.auth.models import Permission, GroupManager
 # Create your models here.
 class MyUser(AbstractUser):
 	num = models.SmallIntegerField(verbose_name = '工号', default = -1, db_index=True, unique=True)
-	position = models.CharField(verbose_name = '职位', max_length=24)
+	position = models.CharField(verbose_name = '职位', blank = True, max_length=24)
 
 
 	def get_full_name(self):

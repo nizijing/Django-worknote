@@ -76,7 +76,7 @@ class AppInfo(models.Model):
         verbose_name_plural = '4-应用信息'
 
 
-class VirtualInfo(models.Model):
+class OhostInfo(models.Model):
     area        = models.CharField(verbose_name = '所在地', max_length = 24)
     hostname    = models.CharField('主机简称', max_length = 24)
     root        = models.CharField('root账号', max_length = 16, default = '')

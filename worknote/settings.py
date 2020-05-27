@@ -42,17 +42,17 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
 #	'is_active':	'ou=users,dc=pukkasoft,dc=cn',
-#	'is_staff' :	'cn=IT运维部-155776062,ou=Department,dc=pukkasoft,dc=cn',
+#	'is_staff' :	'cn=devops,ou=Django,dc=pukkasoft,dc=cn',
 #	'is_superuser' :	'ou=users,dc=pukkasoft,dc=cn',
 	}
 
 AUTH_LDAP_USER_ATTR_MAP = {  
     "first_name": 'givenName',
     "last_name": 'sn',
-	'position': 'employeeType',
-	'num': 'employeeNumber',
+    'position': 'employeeType',
+    'num': 'employeeNumber',
     "email": "mail",
-	"is_staff": 'businessCategory',
+    "is_staff": 'businessCategory',
 	} 
 
 # Quick-start development settings - unsuitable for production
@@ -174,4 +174,5 @@ SIMPLEUI_ANALYSIS = False
 SIMPLEUI_STATIC_OFFLINE = True
 SIMPLEUI_LOGO = '/static/logo.png'
 AUTH_USER_MODEL = 'staff.MyUser'
-
+IMPORT_EXPORT_EXPORT_PERMISSION_CODE='report'
+IMPORT_EXPORT_IMPORT_PERMISSION_CODE='import'

@@ -63,7 +63,7 @@ class VirtualAdmin(ImportExportModelAdmin):
     list_devtest    = ('area', 'ip', 'os_name', 'cpus', 'mems', 'disk', 'user', 'director', 'note')
     search_fields   = ('ip', )
     list_filter     = ('area', 'os_name', 'user', 'director', 'isvhost', 'ohost', 'status')
-    list_display    = ('area', 'hostname', 'ip', 'os_name', 'root', 'rootpasswd', 'cpus', 'mems', 'disk', 'user', 'director', 'ohost', 'isvhost', 'status', 'note')
+    list_display    = ('area', 'ip', 'os_name', 'root', 'rootpasswd', 'cpus', 'mems', 'disk', 'user', 'director', 'ohost', 'isvhost', 'status', 'note')
     field_add       = (
             ('申请信息', { 'fields': ('area', 'os_name', 'cpus', 'mems', 'disk', 'user', 'note', 'needs')}),
             )
