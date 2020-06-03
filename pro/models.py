@@ -76,7 +76,6 @@ class EventInfo(models.Model):
                 )
     pro                = models.ForeignKey(ProInfo, verbose_name = '所属项目', on_delete = models.PROTECT)
     event_name        = models.CharField(verbose_name = '事件名称', max_length=24)
-    event_ctime        = models.DateField('创建时间', auto_now_add = True)
     event_priority    = models.PositiveSmallIntegerField('优先级', choices = event_priority_choices, default = MIDDLEPRI)
 
     def __str__(self):
@@ -116,10 +115,10 @@ class TaskInfo(models.Model):
             )
     task_name    = models.CharField(verbose_name = '任务名称', max_length=24)
     task_status    = models.BooleanField(verbose_name = '任务状态', default = False)
+    task_stime  = models.DateField('开始时间', auto_now_add = True)
     task_mtime    = models.DateField(verbose_name = '修改时间',  auto_now = True)
     task_ftime    = models.DateField(verbose_name = '计划完成时间')
-    task_priority = models.PositiveSmallIntegerField('优先级', choices = task_priority_choices, default = MIDDLEPRI)
-    task_nice    = models.BooleanField(verbose_name = '按时', blank = True)
+    task_nice    = models.BooleanField(verbose_name = '按时', default = False, blank = True)
     task_note   = models.CharField('备注', max_length = 100, default='', blank=True)
 
     def __str__(self):
