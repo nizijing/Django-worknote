@@ -71,7 +71,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'simpleui',
-	'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -79,7 +79,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pro.apps.ProConfig',
     'devices.apps.DevicesConfig',
-	'staff.apps.StaffConfig',
+    'staff.apps.StaffConfig',
     'import_export',
 ]
 

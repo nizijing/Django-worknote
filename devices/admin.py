@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ProInfo, DeviceInfo, UnitInfo, AppInfo, VirtualInfo
+from .models import ProInfo, DeviceInfo, UnitInfo, AppInfo, VirtualInfo, vhostInfo
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
@@ -60,12 +60,12 @@ class UnitAdmin(ImportExportModelAdmin):
 
 @admin.register(VirtualInfo)
 class VirtualAdmin(ImportExportModelAdmin):
-    list_devtest    = ('area', 'ip', 'os_name', 'cpus', 'mems', 'disk', 'user', 'director', 'note')
+    list_devtest    = ('area', 'ip', 'os_name', 'cpus', 'mems', 'disk', 'user', 'director', 'status', 'note')
     search_fields   = ('ip', )
     list_filter     = ('area', 'os_name', 'user', 'director', 'isvhost', 'ohost', 'status')
-    list_display    = ('area', 'hostname', 'ip', 'os_name', 'root', 'rootpasswd', 'cpus', 'mems', 'disk', 'user', 'director', 'ohost', 'isvhost', 'status', 'note')
+    list_display    = ('area', 'hostname', 'ip', 'os_name', 'loginuser', 'rootpasswd', 'cpus', 'mems', 'disk', 'user', 'director', 'ohost', 'isvhost', 'status', 'note')
     field_add       = (
-            ('申请信息', { 'fields': ('area', 'os_name', 'cpus', 'mems', 'disk', 'user', 'note', 'needs')}),
+            ('申请信息', { 'fields': ('area', 'os_name', 'cpus', 'mems', 'disk', 'user', 'note')}),
             )
 
     def get_fieldsets(self, request, obj=None):
@@ -74,6 +74,30 @@ class VirtualAdmin(ImportExportModelAdmin):
         if 'add' in request.META['PATH_INFO']:
             return self.field_add
         
+    def get_list_display(self, request):
+        if not self.has_change_permission(request, obj=None):
+            return self.list_devtest
+        return self.list_display
+
+
+
+@admin.register(vhostInfo)
+class VhostInfoAdmin(ImportExportModelAdmin):
+    list_devtest    = ('fid', 'ip', 'os_name', 'cpus', 'mems', 'disk', 'user', 'director', 'status', 'note')
+    search_fields   = ('ip', 'hostname', 'note')
+    list_filter     = ('fid', 'os_name', 'user', 'director')
+    list_display    = ('fid', 'hostname', 'ip', 'os_name', 'loginuser', 'rootpasswd', 'cpus', 'mems', 'disk', 'user', 'director', 'status', 'note')
+    field_add       = (
+            ('申请信息', { 'fields': ('fid', 'os_name', 'cpus', 'mems', 'disk', 'user', 'note')}),
+            )
+
+    def get_fieldsets(self, request, obj=None):
+        if self.has_change_permission(request, obj):
+            return [(None, {'fields': self.get_fields(request, obj)})]
+        if 'add' in request.META['PATH_INFO']:
+            return self.field_add
+    
+
     def get_list_display(self, request):
         if not self.has_change_permission(request, obj=None):
             return self.list_devtest

@@ -78,29 +78,57 @@ class AppInfo(models.Model):
 
 class VirtualInfo(models.Model):
     area        = models.CharField(verbose_name = '所在地', max_length = 24)
-    hostname    = models.CharField('主机简称', max_length = 24)
-    root        = models.CharField('root账号', max_length = 16, default = '')
-    rootpasswd  = models.CharField('root密码', max_length = 24, default = '')
+    hostname    = models.CharField('主机简称', max_length = 32)
+    loginuser   = models.CharField('登录账号', max_length = 16, default = 'pukka')
+    rootpasswd  = models.CharField('root密码', max_length = 48, default = '')
     ip          = models.GenericIPAddressField('ip')
     ohost       = models.GenericIPAddressField('宿主机', default = '0.0.0.0', help_text = '没有就写0.0.0.0')
     os_name     = models.CharField('OS', max_length = 16)
     director	= models.CharField('运维负责人', max_length = 16, default = '')
     user        = models.CharField('使用人', max_length = 16, default = '')
-    cpus        = models.SmallIntegerField('cpu核数')
-    mems        = models.SmallIntegerField('内存/G')
-    disk        = models.SmallIntegerField('磁盘/G')
+    cpus        = models.SmallIntegerField('C')
+    mems        = models.SmallIntegerField('mem/G')
+    disk        = models.IntegerField('disk/G')
     isvhost     = models.BooleanField('虚机', default = True)
-    status      = models.BooleanField('已分配', default = 'False')
+    status      = models.BooleanField('可用', default = True)
     note        = models.CharField('用处/备注', max_length = 50, blank = True)
-    needs       = models.CharField('其他要求', max_length = 50, blank = True)
     
     def __str__(self):
-        return self.hostname
+        return self.ip
 
     class Meta:
-        verbose_name = 'x-测试环境'
-        verbose_name_plural = 'x-测试环境'
+        verbose_name = 'x-内部物理机'
+        verbose_name_plural = 'x-内部物理机'
         permissions = (
                     ('report_virtualinfo', '导出表格'),
                     ('import_virtualinfo', '导入表格'),
                 )
+
+
+class vhostInfo(models.Model):
+    fid         = models.ForeignKey(VirtualInfo, verbose_name = '宿主机', on_delete = models.DO_NOTHING)
+    hostname    = models.CharField('虚拟机名', max_length = 32)
+    loginuser   = models.CharField('登录账号', max_length = 16, default = 'pukka')
+    rootpasswd  = models.CharField('root密码', max_length = 48, default = '')
+    ip          = models.GenericIPAddressField('ip')
+    os_name     = models.CharField('OS', max_length = 16)
+    director	= models.CharField('运维负责人', max_length = 16, default = '')
+    user        = models.CharField('使用人', max_length = 16, default = '')
+    cpus        = models.SmallIntegerField('C')
+    mems        = models.SmallIntegerField('mem/G')
+    disk        = models.IntegerField('disk/G')
+    status      = models.BooleanField('可用', default = True)
+    note        = models.CharField('用处/备注', max_length = 50, blank = True)
+    
+    def __str__(self):
+        return self.ip
+
+    class Meta:
+        verbose_name = 'x-内部虚拟机'
+        verbose_name_plural = 'x-内部虚拟机'
+        permissions = (
+                    ('report_vhostinfo', '导出表格'),
+                    ('import_vhostinfo', '导入表格'),
+                )
+
+
